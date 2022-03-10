@@ -18,4 +18,17 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_mypage_route()
+    {
+        $response = $this->get('/mypage');
+        $response->assertStatus(200);
+    }
+    
+    public function test_nonexistent_route()
+    {
+        $response = $this->get('/valami');
+        $response->assertStatus(404);
+    }
+    
 }
