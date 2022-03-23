@@ -1,0 +1,18 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "example_app_pg",
+            "Group": "Servers",
+            "Host": "pgsql",
+            "Port": 5432,
+            "MaintenanceDB": "example_app_pg",
+            "Username": "sail",
+            "SSLMode": "prefer",
+            "SSLCompression": 0,
+            "Timeout": 10,
+            "UseSSHTunnel": 0,
+            "TunnelPort": "22",
+            "TunnelAuthentication": 0
+        }
+    }
+}
