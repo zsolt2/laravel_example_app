@@ -14,3 +14,6 @@ laravel/.idea
 laravel/.vscode
 note
 *.bak
+elastic
+*.zip
+agent

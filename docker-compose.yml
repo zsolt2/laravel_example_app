@@ -2,13 +2,14 @@
 
 version: '3'
 services:
-    laravel.test:
+    laravel.dev:
         build:
             context: ./laravel
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: laravel-test/app:${APP_VERSION}
+            target: dev
+        image: localhost:5000/app-test:${APP_VERSION}
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -37,7 +38,9 @@ services:
             POSTGRES_USER: '${DB_USERNAME}'
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
-            - 'sail-pgsql:/var/lib/postgresql/data'
+            - './pgsql:/var/lib/postgresql/data'
+            - ./elastic:/elastic/
+        mem_limit: ${MEM_LIMIT}
         networks:
             - sail
         healthcheck:
@@ -164,8 +167,10 @@ services:
         volumes:
             - certs:/usr/share/elasticsearch/config/certs
             - esdata01:/usr/share/elasticsearch/data
+            - ./elastic:/elastic/
         ports:
             - ${ES_PORT}:9200
+            - 8221:8221
         environment:
             - node.name=es01
             - cluster.name=${CLUSTER_NAME}
@@ -173,6 +178,7 @@ services:
             - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
             - bootstrap.memory_lock=true
             - xpack.security.enabled=true
+            - xpack.security.authc.api_key.enabled=true
             - xpack.security.http.ssl.enabled=true
             - xpack.security.http.ssl.key=certs/es01/es01.key
             - xpack.security.http.ssl.certificate=certs/es01/es01.crt

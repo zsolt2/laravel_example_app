@@ -3,12 +3,13 @@ version: '3'
 services:
     laravel.prod:
         build:
-            context: .
+            context: ./laravel
             dockerfile: Dockerfile
             args:
-                WWWGROUP: '1000'
-                WWWUSER: '1000' 
-        image: laravel/app:${APP_VERSION}
+                WWWGROUP: '${WWWGROUP}'
+                WWWUSER: '${WWWUSER}'
+            target: prod
+        image: zsolt2/app:${APP_VERSION}
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
